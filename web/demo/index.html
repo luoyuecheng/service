@@ -13,5 +13,14 @@
         <button type="submit">submit</button>
     </form>
     <script src="./queue.js"></script>
+    <script>
+        window.onload = function () {
+            fetch('/api/example').then(function (res) {
+                return res.json(res);
+            }).then(function (res) {
+                document.querySelector('#root').innerHTML = JSON.stringify(res);
+            })
+        }
+    </script>
 </body>
 </html>

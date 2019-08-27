@@ -16,28 +16,32 @@ function mongoClient(callback) {
   })
 }
 
-module.exports.find = function (collectionName, whereStr, paramJson, callback) {
-  if (arguments.length === 3) {
-    callback = paramJson;
-    paramJson = null;
-  }
-
+/**
+ * query documents
+ * @param {string} collectionName collection name
+ * @param {object} param query conditions
+ * @param {function} callback
+ */
+module.exports.find = function (collectionName, param, callback) {
   mongoClient(function (client, db) {
     const collection = db.collection(collectionName);
+    collection.find(param).toArray().then(function (items) {
+      callback && callback.call(this, items);
+      client.close();
+    })
   })
 }
 
-module.exports = function (req, res) {
-  MongoClient.connect(url, function (err, client) {
-    assert.equal(null, err);
-    assert.ok(client != null);
-  
-    const db = client.db(dbName);
-    const collection = db.collection('example');
-  
-    collection.find({}).toArray().then(function (items) {
-      console.log('items', items);
-      res.send(JSON.stringify(items));
+/**
+ * insert many data
+ */
+module.exports.insertOne = function (collectionName, param, callback) {
+  mongoClient(function (client, db) {
+    const collection = db.collection(collectionName);
+    collection.insertOne(param).then(function (results) {
+      assert.equal(1, results.insertedCount);
+      callback && callback.call(this, results);
+      db.close();
     })
   })
 }

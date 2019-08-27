@@ -1,26 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <meta http-equiv="X-UA-Compatible" content="ie=edge"> -->
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <meta http-equiv="X-UA-Compatible" content="ie=edge"> -->
+  <title>Document</title>
 </head>
+
 <body>
-    <div id="root"></div>
-    <form action="/api/demo/insert" method="POST" autocomplete>
-        <input type="text" name="token" />
-        <button type="submit">submit</button>
-    </form>
-    <script src="./queue.js"></script>
-    <script>
-        window.onload = function () {
-            fetch('/api/example').then(function (res) {
-                return res.json(res);
-            }).then(function (res) {
-                document.querySelector('#root').innerHTML = JSON.stringify(res);
-            })
-        }
-    </script>
+  <div id="root"></div>
+  <form action="/api/demo/insert" method="POST" autocomplete>
+    <label>
+      title:
+      <input type="text" name="title" />
+    </label>
+    <br />
+    <label>
+      desc:
+      <input type="text" name="desc" />
+    </label>
+    <br />
+    <label>
+      contentType:
+      <input type="radio" name="contentType" value="text" />
+      <input type="radio" name="contentType" value="markdown" />
+    </label>
+    <br />
+    <label>
+      content:
+      <input type="text" name="content" />
+    </label>
+    <button type="submit">submit</button>
+  </form>
+  <iframe id="id_iframe" name="nm_iframe" style="display:none;"></iframe>
+  <script src="./queue.js"></script>
+  <script>
+    window.onload = function () {
+      fetch('/api/example').then(function (res) {
+        return res.json(res);
+      }).then(function (res) {
+        document.querySelector('#root').innerHTML = JSON.stringify(res);
+      })
+    }
+  </script>
 </body>
+
 </html>

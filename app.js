@@ -6,24 +6,15 @@ var app = express();
 
 const routes = require('./routes');
 
+// for parsing application/json
+app.use(express.json());
+// for parsing application/x-www-form-urlencode
+app.use(express.urlencoded({ extended: true }));
+
 // app.use load routes
 for (let key in routes) {
   app.use(routes[key]);
 }
-
-// const url = 'mongodb://182.61.138.124:27017';
-// const dbName = 'meetion';
-// let server = null;
-
-// MongoClient.connect(url, function (err, client) {
-//   assert.equal(null, err);
-//   assert.ok(client != null);
-
-//   const db = client.db(dbName);
-//   const collection = db.collection('example');
-
-//   server = listen(4200);
-// });
 
 let port = 3001;
 const server = listen(port);

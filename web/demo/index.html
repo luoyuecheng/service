@@ -23,13 +23,13 @@
     <br />
     <label>
       contentType:
-      <input type="radio" name="contentType" value="text" />
-      <input type="radio" name="contentType" value="markdown" />
+      text/html<input type="radio" name="contentType" value="text" />
+      markdown<input type="radio" name="contentType" value="markdown" />
     </label>
     <br />
     <label>
       content:
-      <input type="text" name="content" />
+      <textarea name="content"></textarea>
     </label>
     <button type="submit">submit</button>
   </form>
@@ -40,9 +40,21 @@
       fetch('/api/example').then(function (res) {
         return res.json(res);
       }).then(function (res) {
-        document.querySelector('#root').innerHTML = JSON.stringify(res);
+        let str = res.map(item => {
+          return `<li><span>${JSON.stringify(item)}</span> <button onclick="fetchDelete('${item.status || item.title}')">delete</button></li>`;
+        })
+        str = `<ul>${str}</ul>`;
+        document.querySelector('#root').innerHTML = str;
       })
+
     }
+      function fetchDelete(_id) {
+        fetch('/api/demo/delete/' + _id, { method: 'delete' }).then(function (res) {
+          return res.json();
+        }).then(function (res) {
+          console.log('results', res);
+        }).catch(function (e) { console.log(3) });
+      }
   </script>
 </body>
 

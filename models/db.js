@@ -32,16 +32,65 @@ module.exports.find = function (collectionName, param, callback) {
   })
 }
 
+module.exports.findOne = function (collectionName, filter, options, callback) {
+  if (arguments.length === 3) {
+    callback = options;
+  }
+  mongoClient(function (client, db) {
+    const collection = db.collection(collectionName);
+    collection.findOne(filter, function (err, results) {
+      console.log('filter one', filter, results);
+      callback && callback.call(this, results);
+      client.close();
+    })
+  })
+}
+
 /**
- * insert many data
+ * insert one data
  */
 module.exports.insertOne = function (collectionName, param, callback) {
   mongoClient(function (client, db) {
     const collection = db.collection(collectionName);
     collection.insertOne(param).then(function (results) {
-      assert.equal(1, results.insertedCount);
+      // assert.equal(1, results.insertedCount);
       callback && callback.call(this, results);
       db.close();
+    })
+  })
+}
+
+/**
+ * insert many data
+ */
+module.exports.insertMany = function (collectionName, param, callback) {
+  mongoClient(function (client, db) {
+    const collection = db.collection(collectionName);
+    collection.insertMany(param).then(function (results) {
+      // assert.equal(1, results.insertedCount);
+
+      callback && callback.call(this, results);
+      db.close();
+    })
+  })
+}
+
+/**
+ * delete one document
+ */
+module.exports.deleteOne = function (collectionName, filter, options, callback) {
+  if (arguments.length === 3) {
+    callback = options;
+  }
+  mongoClient(function (client, db) {
+    const collection = db.collection(collectionName);
+
+    collection.deleteOne(filter).then(function (results) {
+      console.log('deleteOne results', results);
+      // assert.equal(1, results.deleteCount);
+
+      callback && callback.call(this, results);
+      client.close();
     })
   })
 }

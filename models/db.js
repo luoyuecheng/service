@@ -55,7 +55,7 @@ module.exports.insertOne = function (collectionName, param, callback) {
     collection.insertOne(param).then(function (results) {
       // assert.equal(1, results.insertedCount);
       callback && callback.call(this, results);
-      db.close();
+      client.close();
     })
   })
 }
@@ -70,7 +70,7 @@ module.exports.insertMany = function (collectionName, param, callback) {
       // assert.equal(1, results.insertedCount);
 
       callback && callback.call(this, results);
-      db.close();
+      client.close();
     })
   })
 }

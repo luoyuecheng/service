@@ -37,24 +37,27 @@
   <script src="./queue.js"></script>
   <script>
     window.onload = function () {
+      fetchQuery();
+    }
+
+    function fetchQuery() {
       fetch('/api/example').then(function (res) {
-        return res.json(res);
+        return res.json();
       }).then(function (res) {
-        let str = res.map(item => {
-          return `<li><span>${JSON.stringify(item)}</span> <button onclick="fetchDelete('${item.status || item.title}')">delete</button></li>`;
-        })
+        let str = res.map(item => `<li><span>${JSON.stringify(item)}</span> <button onClick="fetchDelete('${item._id}')">delete</button></li>`);
         str = `<ul>${str}</ul>`;
         document.querySelector('#root').innerHTML = str;
       })
-
     }
-      function fetchDelete(_id) {
-        fetch('/api/demo/delete/' + _id, { method: 'delete' }).then(function (res) {
-          return res.json();
-        }).then(function (res) {
-          console.log('results', res);
-        }).catch(function (e) { console.log(3) });
-      }
+
+    function fetchDelete(_id) {
+      fetch('/api/demo/delete/' + _id, { method: 'delete' }).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        console.log('results', res);
+        fetchQuery();
+      }).catch(function (e) { console.log(3) });
+    }
   </script>
 </body>
 

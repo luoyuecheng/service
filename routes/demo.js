@@ -13,6 +13,8 @@ router.post('/api/demo/insert', function (req, res) {
   doc.content = req.body.content;
   doc.createTime = new Date().getTime();
   doc.updateTime = null;
+  doc.category = req.body.category;
+  doc.label = req.body.label;
 
   db.insertOne('example', doc, function (results) {
     console.log(results);
@@ -34,7 +36,7 @@ router.post('/api/demo/insert', function (req, res) {
 router.delete('/api/demo/delete/:_id', function (req, res) {
   const _id = req.params._id;
   console.log('delete', _id);
-  db.deleteOne('example', { "title": _id }, function (results) {
+  db.deleteOne('example', { _id: ObjectId(_id) }, function (results) {
     console.log('delete results', results);
     res.send({ success: true, successCode: 1 });
   })

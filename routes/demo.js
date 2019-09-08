@@ -16,7 +16,7 @@ router.post('/api/demo/insert', function (req, res) {
   doc.category = req.body.category;
   doc.label = req.body.label;
 
-  db.insertOne('example', doc, function (results) {
+  db.insertOne('article', doc, function (results) {
     console.log(results);
     const retValue = {
       success: false,
@@ -36,28 +36,28 @@ router.post('/api/demo/insert', function (req, res) {
 router.delete('/api/demo/delete/:_id', function (req, res) {
   const _id = req.params._id;
   console.log('delete', _id);
-  db.deleteOne('example', { _id: ObjectId(_id) }, function (results) {
+  db.deleteOne('article', { _id: ObjectId(_id) }, function (results) {
     console.log('delete results', results);
     res.send({ success: true, successCode: 1 });
   })
 })
 
 router.get('/api/example', function (req, res) {
-    db.find('example', {}, function (results) {
+    db.find('article', {}, function (results) {
       console.log('results', results);
       res.send(results);
     });
 })
 
 router.get('/api/articleLists', function (req, res) {
-  db.find('example', {}, function (results) {
+  db.find('article', {}, function (results) {
     res.send({ success: true, successCode: 1, data: results });
   })
 })
 
 router.get('/api/articleLists/:id', function (req, res) {
   const filter = { _id: ObjectId(req.params.id) };
-  db.findOne('example', filter, function (results) {
+  db.findOne('article', filter, function (results) {
     res.send({ success: true, successCode: 1, data: results });
   })
 })

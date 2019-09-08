@@ -2,7 +2,7 @@ const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 
 const url = 'mongodb://182.61.138.124:27017';
-const dbName = 'meetion';
+const dbName = 'blog';
 
 function mongoClient(callback) {
   MongoClient.connect(url, function (err, client) {

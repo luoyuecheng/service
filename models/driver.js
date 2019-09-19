@@ -57,3 +57,69 @@ function dropCollection(collectionName) {
     })
   })
 }
+
+// create a database
+// createDb('luoyuecheng');
+function createDb(dbName) {
+  MongoClient.connect(url, function (err, client) {
+    const db = client.db(dbName);
+    console.log(db);
+    client.close();
+  })
+}
+
+
+function mongoDatabase(callback) {
+  MongoClient.connect(url, function (err, client) {
+    callback && callback.call(this, client);
+  })
+}
+
+// list all database
+// listDatabases();
+function listDatabases() {
+  mongoDatabase(function (client) {
+    const adminDb = client.db().admin();
+
+    adminDb.listDatabases({ nameOnly: false }, function (err, results) {
+      console.log(results);
+      client.close();
+    });
+  })
+}
+
+// validateCollection('article');
+function validateCollection(collectionName) {
+  mongoDatabase(function(client) {
+    const db = client.db('blog');
+    const adminDb = db.admin();
+    const collection = db.collection(collectionName);
+
+    adminDb.validateCollection(collectionName, function (err, result) {
+      console.log('validdateCollection', result);
+      client.close();
+    })
+    
+    adminDb.validateCollection('test', function (err, result) {
+      console.log('validateCollection test', result);
+      client.close();
+    })
+  })
+}
+
+dropDatabase();
+function dropDatabase() {
+  mongoDatabase(function (client) {
+    const db = client.db('test');
+    const adminDb = db.admin();
+
+    db.dropDatabase(function (err, result) {
+      console.log(err, result);
+
+      adminDb.listDatabases({ nameOnly: true }, function (err, results) {
+        console.log(results);
+        client.close();
+      })
+    })
+  })
+}

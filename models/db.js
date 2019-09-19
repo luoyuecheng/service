@@ -28,6 +28,8 @@ module.exports.find = function (collectionName, param, callback) {
     collection.find(param).toArray().then(function (items) {
       callback && callback.call(this, items);
       client.close();
+    }).catch(function (e) {
+      console.log('collection.find', e);
     })
   })
 }
@@ -56,6 +58,8 @@ module.exports.insertOne = function (collectionName, param, callback) {
       // assert.equal(1, results.insertedCount);
       callback && callback.call(this, results);
       client.close();
+    }).catch(function (e) {
+      console.log('collection.insertOne', e);
     })
   })
 }
@@ -71,6 +75,8 @@ module.exports.insertMany = function (collectionName, param, callback) {
 
       callback && callback.call(this, results);
       client.close();
+    }).catch(function (e) {
+      console.log('collection.insertMany', e);
     })
   })
 }
@@ -91,6 +97,8 @@ module.exports.deleteOne = function (collectionName, filter, options, callback) 
 
       callback && callback.call(this, results);
       client.close();
+    }).catch(function (e) {
+      console.log('collection.deleteOne', e);
     })
   })
 }
